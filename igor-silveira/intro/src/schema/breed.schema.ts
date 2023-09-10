@@ -9,4 +9,4 @@ export class Breed {
   name: string;
 }
 
-export const CatSchema = SchemaFactory.createForClass(Breed);
+export const BreedSchema = SchemaFactory.createForClass(Breed);

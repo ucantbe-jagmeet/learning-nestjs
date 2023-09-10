@@ -1,1 +1,3 @@
-export class CreateBreedDto {}
+export class CreateBreedDto {
+  readonly name: string;
+}

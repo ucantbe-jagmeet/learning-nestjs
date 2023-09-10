@@ -8,11 +8,12 @@ import { Breed, BreedDocument } from 'src/schema/breed.schema';
 @Injectable()
 export class BreedsService {
   constructor(
-    @InjectModel(Breed.name) private BreedModel: Model<BreedDocument>,
+    @InjectModel(Breed.name) private breedModel: Model<BreedDocument>,
   ) {}
 
-  create(createBreedDto: CreateBreedDto) {
-    return 'This action adds a new breed';
+  async create(createBreedDto: CreateBreedDto): Promise<Breed> {
+    const createdBreed = new this.breedModel(createBreedDto);
+    return createdBreed.save();
   }
 
   findAll() {

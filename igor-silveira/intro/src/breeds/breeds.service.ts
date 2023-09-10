@@ -16,19 +16,44 @@ export class BreedsService {
     return createdBreed.save();
   }
 
-  findAll() {
-    return `This action returns all breeds`;
+  async findAll() {
+    return this.breedModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} breed`;
+  async findOne(name: string) {
+    return this.breedModel.findOne({ name });
   }
 
-  update(id: number, updateBreedDto: UpdateBreedDto) {
-    return `This action updates a #${id} breed`;
+  async update(
+    name: string,
+    updateBreedDto: UpdateBreedDto,
+  ): Promise<Breed | null> {
+    const updatedBreed = await this.breedModel
+      .findOneAndUpdate(
+        { name },
+        { $set: { ...updateBreedDto } },
+        { new: true }, // Return the updated document
+      )
+      .exec();
+
+    if (!updatedBreed) {
+      // Handle not found
+      return null;
+    }
+
+    return updatedBreed;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} breed`;
+  async remove(name: string): Promise<Breed | null> {
+    const deletedBreed = await this.breedModel
+      .findOneAndRemove({ name })
+      .exec();
+
+    if (!deletedBreed) {
+      // Handle not found
+      return null;
+    }
+
+    return deletedBreed;
   }
 }

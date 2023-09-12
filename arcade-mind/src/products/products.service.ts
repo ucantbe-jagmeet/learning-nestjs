@@ -12,9 +12,9 @@ export class ProductsService {
     @InjectModel('Product') private readonly productModel: Model<Product>,
   ) {}
 
-  create(id: string, title: string, desc: string, price: number) {
+  create(title: string, description: string, price: string) {
     const prodId = Math.random().toString();
-    const newProduct = new this.productModel(prodId, title, desc, price);
+    const newProduct = new this.productModel(title, description, price);
     this.products.push(newProduct);
     return prodId;
   }

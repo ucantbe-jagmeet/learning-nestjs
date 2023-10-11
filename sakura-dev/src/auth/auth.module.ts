@@ -1,14 +1,20 @@
+// In your AuthModule
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Auth, AuthSchema } from 'src/models/auth.schema';
+import { UserService } from '../user/user.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
+    JwtModule.register({
+      secret: `${process.env.JWT_SECRET_KEY}`,
+      signOptions: { expiresIn: '3600s' },
+    }),
+    UserModule,
   ],
+  providers: [AuthService, UserService, JwtService],
   controllers: [AuthController],
-  providers: [AuthService],
 })
 export class AuthModule {}
